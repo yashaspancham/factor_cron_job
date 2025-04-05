@@ -1,11 +1,11 @@
 import pandas
-import requests
-from bs4 import BeautifulSoup
 import time
 from memory_profiler import profile
 from pathlib import Path
 from saveToS3.saveToS3 import upload
 from utils.utils import get_old_file_name, is_uploaded
+from .scrape import webscrape
+
 
 start_point=time.time()
 stock_list = pandas.read_csv("./Equity.csv")
@@ -31,12 +31,7 @@ for security_code in security_code_list:
         if is_uploaded(old_file_name):
             number_of_stocks += 1
             continue
-        print("This will webscrape")
-        old_files=list(data_directory.glob("*.html"))
-        address = "https://www.screener.in/company/" + security_code + "/"
-        request = requests.get(address)
-        soup = BeautifulSoup(request.content, 'html.parser')
-        html_data = request.content
+        html_data = webscrape(security_code)
         upload(security_code, html_data)
         
     except Exception as error:
