@@ -1,0 +1,39 @@
+# Ignore virtual environment
+cron_venv/
+
+# Ignore data, logs, profiles
+DATA/
+*.log
+mprofile_*.dat
+
+# Ignore environment/secret files
+.env*
+*.env
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+
+# Editor/OS-specific files
+.DS_Store
+*.swp
+*~
+
+# Ignore test/output files
+*.out
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VSCode/IDE configs
+.vscode/
+
+# Coverage and testing
+.coverage
+htmlcov/
+.pytest_cache/
+.cache/
+
+# Requirements lock (if not used)
+Pipfile.lock
+poetry.lock
