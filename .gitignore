@@ -37,3 +37,7 @@ htmlcov/
 # Requirements lock (if not used)
 Pipfile.lock
 poetry.lock
+
+
+#credentials
+credentials/
