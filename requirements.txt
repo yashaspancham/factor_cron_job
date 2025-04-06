@@ -15,8 +15,10 @@ idna==3.10
 kiwisolver==1.4.8
 matplotlib==3.10.1
 memory-profiler==0.61.0
+numpy==2.2.4
 oauthlib==3.2.2
 packaging==24.2
+pandas==2.2.3
 pillow==11.1.0
 proto-plus==1.26.1
 protobuf==6.30.2

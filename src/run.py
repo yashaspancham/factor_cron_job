@@ -19,7 +19,7 @@ start_of_cron_job_datetime=datetime.now()
 for security_code in security_code_list:
     security_code = str(security_code)
     if (number_of_stocks % 50) == 0:
-        print(f"Number of files downloaded: {number_of_stocks}")
+        print(f"Finished files: {number_of_stocks}")
     try:
         if number_of_stocks == 20:
             end_point=time.time()
