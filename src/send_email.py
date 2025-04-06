@@ -1,16 +1,19 @@
 from pathlib import Path
 import os
 import base64
+from dotenv import load_dotenv
 from email.mime.text import MIMEText
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
+load_dotenv()
 SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
 ROOT_DIR = Path(__file__).resolve().parent.parent
 CREDENTIALS_PATH = ROOT_DIR / "credentials" / "credentials.json"
 TOKEN_PATH = ROOT_DIR / "credentials" / "token.json"
+GMAIL_ADDRESS=os.getenv("GMAIL_ADDRESS")
 
 def create_message(sender, to, subject, message_text):
     message = MIMEText(message_text)
@@ -35,8 +38,8 @@ def send_email(subject:str,message_text:str)->None:
 
     service = build("gmail", "v1", credentials=creds)
     message = create_message(
-        sender="yashaspancham@gmail.com",
-        to="yashaspancham@gmail.com",
+        sender=f"{GMAIL_ADDRESS}",
+        to=f"{GMAIL_ADDRESS}",
         subject=f"{subject}",
         message_text=f"{message_text}"
     )
