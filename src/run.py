@@ -1,11 +1,12 @@
 import pandas
-import requests
-from bs4 import BeautifulSoup
 import time
 from memory_profiler import profile
 from pathlib import Path
 from saveToS3.saveToS3 import upload
+from datetime import datetime
 from utils.utils import get_old_file_name, is_uploaded
+from .scrape import webscrape
+from .send_email import send_email
 
 start_point=time.time()
 stock_list = pandas.read_csv("./Equity.csv")
@@ -13,16 +14,23 @@ security_code_list = stock_list.index.to_list()
 number_of_stocks = 0
 failed_number_of_stocks=0
 
+start_of_cron_job_datetime=datetime.now()
+
 for security_code in security_code_list:
     security_code = str(security_code)
     if (number_of_stocks % 50) == 0:
-        print(f"Number of files downloaded: {number_of_stocks}")
+        print(f"Finished files: {number_of_stocks}")
     try:
         if number_of_stocks == 20:
             end_point=time.time()
-            print(f"The total number of stocks that were attempted to downloaded: {number_of_stocks}")
-            print(f"The total number of stocks failed to dowmload: {failed_number_of_stocks}")
-            print(f"The total time taken: {end_point-start_point} seconds")
+            subject="Test Factor_cron_job is done"
+            message_text=f"""The total number of stocks that were attempted to download: {number_of_stocks}.\n\n
+            The total number of stocks failed to download: {failed_number_of_stocks}\n\n
+            The total time taken: {end_point-start_point} seconds or {(end_point-start_point)/3600} hours\n\n
+            The cron_job started at {start_of_cron_job_datetime} and finished at {datetime.now()}\n\n
+            """
+            send_email(subject,message_text)
+            print(message_text)
             exit(0)
         data_directory=Path(__file__).resolve().parent.parent/'DATA'
         data_directory.mkdir(exist_ok=True)
@@ -31,12 +39,7 @@ for security_code in security_code_list:
         if is_uploaded(old_file_name):
             number_of_stocks += 1
             continue
-        print("This will webscrape")
-        old_files=list(data_directory.glob("*.html"))
-        address = "https://www.screener.in/company/" + security_code + "/"
-        request = requests.get(address)
-        soup = BeautifulSoup(request.content, 'html.parser')
-        html_data = request.content
+        html_data = webscrape(security_code)
         upload(security_code, html_data)
         
     except Exception as error:
@@ -45,6 +48,11 @@ for security_code in security_code_list:
     number_of_stocks += 1
     
 end_point=time.time()
-print(f"The total number of stocks that were attempted to downloaded: {number_of_stocks}")
-print(f"The total number of stocks failed to dowmload: {failed_number_of_stocks}")
-print(f"The total time taken: {end_point-start_point} seconds")
+subject="Factor_cron_job is done"
+message_text=f"""The total number of stocks that were attempted to download: {number_of_stocks}.\n\n
+The total number of stocks failed to download: {failed_number_of_stocks}\n\n
+The total time taken: {end_point-start_point} seconds or {(end_point-start_point)/3600} hours\n\n
+The cron_job started at {start_of_cron_job_datetime} and finished at {datetime.now()}\n\n
+"""
+send_email(subject,message_text)
+print(message_text)
