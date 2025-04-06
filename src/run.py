@@ -24,8 +24,8 @@ for security_code in security_code_list:
         if number_of_stocks == 20:
             end_point=time.time()
             subject="Test Factor_cron_job is done"
-            message_text=f"""The total number of stocks that were attempted to downloaded: {number_of_stocks}.\n\n
-            The total number of stocks failed to dowmload: {failed_number_of_stocks}\n\n
+            message_text=f"""The total number of stocks that were attempted to download: {number_of_stocks}.\n\n
+            The total number of stocks failed to download: {failed_number_of_stocks}\n\n
             The total time taken: {end_point-start_point} seconds or {(end_point-start_point)/3600} hours\n\n
             The cron_job started at {start_of_cron_job_datetime} and finished at {datetime.now()}\n\n
             """
@@ -49,8 +49,8 @@ for security_code in security_code_list:
     
 end_point=time.time()
 subject="Factor_cron_job is done"
-message_text=f"""The total number of stocks that were attempted to downloaded: {number_of_stocks}.\n\n
-The total number of stocks failed to dowmload: {failed_number_of_stocks}\n\n
+message_text=f"""The total number of stocks that were attempted to download: {number_of_stocks}.\n\n
+The total number of stocks failed to download: {failed_number_of_stocks}\n\n
 The total time taken: {end_point-start_point} seconds or {(end_point-start_point)/3600} hours\n\n
 The cron_job started at {start_of_cron_job_datetime} and finished at {datetime.now()}\n\n
 """
