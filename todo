@@ -1,5 +1,6 @@
 1.saperate the save file from the main script-Done
 2.only save the file if the file does not exist-Done
-3.Send logs to email or whatsapp or something-work in progress
-3.write to S3 instead of local file system-yet to be done
-4.Dockerise the project-yet to be done
+3.Send logs to email or whatsapp or something-Done(might come back here)
+4.Scrape data remove the unwanted data like footer, header, and so on.-work in progress
+4.write to S3 instead of local file system-yet to be done
+5.Dockerise the project-yet to be done
